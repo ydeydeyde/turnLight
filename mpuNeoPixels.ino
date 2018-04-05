@@ -81,7 +81,7 @@ static void chaseA(uint32_t c) {
       stripA.setPixelColor(i  , c); // Draw new pixel
       stripA.setPixelColor(i-4, 0); // Erase pixel a few steps back
       stripA.show();
-      delay(25);
+      //delay(25);
   }
 }
 
@@ -90,6 +90,6 @@ static void chaseA(uint32_t c) {
       stripB.setPixelColor(i  , c); // Draw new pixel
       stripB.setPixelColor(i-4, 0); // Erase pixel a few steps back
       stripB.show();
-      delay(25);
+      //delay(25);
   }
 }
