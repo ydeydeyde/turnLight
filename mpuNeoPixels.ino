@@ -22,7 +22,7 @@ Adafruit_NeoPixel stripB = Adafruit_NeoPixel(9, PINb, NEO_GRB + NEO_KHZ800);
 
 void setup() 
 {
-  // Clean slate, otherwise random pixels could be on when powered 
+  // Clean slate
   stripA.clear();
   stripB.clear();
   
