@@ -22,7 +22,7 @@ Adafruit_NeoPixel stripB = Adafruit_NeoPixel(9, PINb, NEO_GRB + NEO_KHZ800);
 
 void setup() 
 {
-  // Clean slate
+  // Clean slate, otherwise random pixels could be on when powered 
   stripA.clear();
   stripB.clear();
   
@@ -66,14 +66,36 @@ void loop()
   Serial.println(yaw);
 
   if (pitch>5) {
-  chaseA(stripA.Color(255, 0, 0)); // Red
+    chaseA(stripA.Color(255, 0, 0)); // Red
+    chaseB(stripB.Color(255, 0, 0)); 
   } 
-  if (roll>2) {
-  chaseB(stripB.Color(0, 0, 255)); // Red
+  else if (roll> 5) {
+    chaseB(stripB.Color(0, 0, 255)); // Blue
+    chaseB(stripB.Color(0, 0, 255)); 
+  }
+  else if (yaw > 5) {
+    chaseA(stripA.Color(0,255, 0)); // Green
+    chaseB(stripB.Color(0, 255, 0)); 
+  }
+    else if (roll < -5) {
+    chaseB(stripB.Color(100, 150,200)); 
+    chaseB(stripB.Color(100, 150,200)); 
+  }
+  else if (yaw < -5) {
+    chaseA(stripA.Color(50,255, 200)); 
+    chaseB(stripB.Color(50, 255, 200)); 
+  }
+  else if (pitch <-5) {
+    chaseA(stripA.Color(10,255, 255)); 
+    chaseB(stripB.Color(10, 255, 255)); 
+  } 
+  else {
+    chaseA(stripA.Color(255, 255, 255)); 
+    chaseB(stripB.Color(255, 255, 255)); 
   }
 
   // Wait to full timeStep period
-  delay((timeStep*10000) - (millis() - timer));
+  //delay((timeStep*10000) - (millis() - timer));
 }
 
 static void chaseA(uint32_t c) {
@@ -81,7 +103,6 @@ static void chaseA(uint32_t c) {
       stripA.setPixelColor(i  , c); // Draw new pixel
       stripA.setPixelColor(i-4, 0); // Erase pixel a few steps back
       stripA.show();
-      
   }
 }
 
@@ -90,6 +111,5 @@ static void chaseA(uint32_t c) {
       stripB.setPixelColor(i  , c); // Draw new pixel
       stripB.setPixelColor(i-4, 0); // Erase pixel a few steps back
       stripB.show();
-      
   }
 }
