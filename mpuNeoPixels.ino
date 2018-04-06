@@ -2,106 +2,87 @@
 #include <MPU6050.h>
 #include <Adafruit_NeoPixel.h>
 
-#define PINa 10 
+// Output pins for NeoPixel LED strips
+#define PINa 10
 #define PINb 12
-#define N_LEDS 9
+#define N_LEDS 9 
 
 MPU6050 mpu;
-
-// Timers
-unsigned long timer = 0;
-float timeStep = 0.01;
-
-// Pitch, Roll and Yaw values
-float pitch = 0;
-float roll = 0;
-float yaw = 0;
 
 Adafruit_NeoPixel stripA = Adafruit_NeoPixel(9, PINa, NEO_GRB + NEO_KHZ800);
 Adafruit_NeoPixel stripB = Adafruit_NeoPixel(9, PINb, NEO_GRB + NEO_KHZ800);
 
 void setup() 
 {
-  // Clean slate, otherwise random pixels could be on when powered 
+  Serial.begin(115200);
   stripA.clear();
   stripB.clear();
-  
-  Serial.begin(115200);
+
   stripA.begin();
   stripB.begin();
-  // Initialize MPU6050
+  
+  Serial.println("Initialize MPU6050");
+
   while(!mpu.begin(MPU6050_SCALE_2000DPS, MPU6050_RANGE_2G))
   {
     Serial.println("Could not find a valid MPU6050 sensor, check wiring!");
     delay(500);
   }
-  
-  // Calibrate gyroscope. The calibration must be at rest.
-  // If you don't want calibrate, comment this line.
-  mpu.calibrateGyro();
-
-  // Set threshold sensivty. Default 3.
-  // If you don't want use threshold, comment this line or set 0.
-  mpu.setThreshold(10);
 }
 
 void loop()
 {
-  timer = millis();
+  // Read normalized values 
+  Vector normAccel = mpu.readNormalizeAccel();
 
-  // Read normalized values
-  Vector norm = mpu.readNormalizeGyro();
+  // Calculate Pitch & Roll
+  int pitch = -(atan2(normAccel.XAxis, sqrt(normAccel.YAxis*normAccel.YAxis + normAccel.ZAxis*normAccel.ZAxis))*180.0)/M_PI;
+  int roll = (atan2(normAccel.YAxis, normAccel.ZAxis)*180.0)/M_PI;
 
-  // Calculate Pitch, Roll and Yaw
-  pitch = pitch + norm.YAxis * timeStep;
-  roll = roll + norm.XAxis * timeStep;
-  yaw = yaw + norm.ZAxis * timeStep;
-  
-  // Output raw
-  //Serial.print(" Pitch = ");
+  // Output
+  Serial.print(" Pitch = ");
   Serial.print(pitch);
-  Serial.print(",");
-  Serial.print(roll);  
-  Serial.print(",");
-  Serial.println(yaw);
+  Serial.print(" Roll = ");
+  Serial.print(roll);
+  Serial.println();
+  delay(100);
 
-  if (pitch>5) {
+  // Side 1 
+  if (pitch < 2 and pitch > -1 and roll < -3 and roll > -5 ) {
     chaseA(stripA.Color(255, 0, 0)); // Red
     chaseB(stripB.Color(255, 0, 0)); 
   } 
-  else if (roll> 5) {
-    chaseB(stripB.Color(0, 0, 255)); // Blue
+  // Side 2
+  else if (pitch < -86 and pitch > -80 and roll > -160 and roll < -167) {
+    chaseA(stripB.Color(0, 0, 255)); // Blue
     chaseB(stripB.Color(0, 0, 255)); 
   }
-  else if (yaw > 5) {
+  // Side 3
+  else if (pitch < 81 and pitch > 77 and roll > -160 and roll < -167) {
     chaseA(stripA.Color(0,255, 0)); // Green
     chaseB(stripB.Color(0, 255, 0)); 
   }
-    else if (roll < -5) {
-    chaseB(stripB.Color(100, 150,200)); 
+  // Side 4
+    else if (pitch < 1 and pitch > -1 and roll > 93 and roll < 100) {
+    chaseA(stripB.Color(100, 150,200)); 
     chaseB(stripB.Color(100, 150,200)); 
   }
-  else if (yaw < -5) {
-    chaseA(stripA.Color(50,255, 200)); 
-    chaseB(stripB.Color(50, 255, 200)); 
-  }
-  else if (pitch <-5) {
+  // Side 5
+  else if (pitch < -1 and pitch > -4 and roll > -100 and roll < -95) {
     chaseA(stripA.Color(10,255, 255)); 
     chaseB(stripB.Color(10, 255, 255)); 
   } 
-  else {
+  // Side 6 
+  else if (pitch < -1 and pitch > -4 and roll > 175 and roll < 180) {
     chaseA(stripA.Color(255, 255, 255)); 
     chaseB(stripB.Color(255, 255, 255)); 
-  }
-
-  // Wait to full timeStep period
-  //delay((timeStep*10000) - (millis() - timer));
+  }  
 }
 
 static void chaseA(uint32_t c) {
   for(uint16_t i=0; i<stripA.numPixels()+4; i++) {
       stripA.setPixelColor(i  , c); // Draw new pixel
-      stripA.setPixelColor(i-4, 0); // Erase pixel a few steps back
+     // stripA.setPixelColor(i-4, 0); // Erase pixel a few steps back
       stripA.show();
   }
 }
@@ -109,7 +90,7 @@ static void chaseA(uint32_t c) {
   static void chaseB(uint32_t c) {
   for(uint16_t i=0; i<stripA.numPixels()+4; i++) {
       stripB.setPixelColor(i  , c); // Draw new pixel
-      stripB.setPixelColor(i-4, 0); // Erase pixel a few steps back
+    //  stripB.setPixelColor(i-4, 0); // Erase pixel a few steps back
       stripB.show();
   }
 }
