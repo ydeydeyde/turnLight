@@ -48,7 +48,7 @@ void loop()
   delay(100);
 
   // Side 1 
-  if (pitch < 2 and pitch > -1 and roll < -3 and roll > -5 ) {
+  if (pitch < 2 and pitch > -1 and roll < -1 and roll > -5 ) {
     chaseA(stripA.Color(255, 0, 0)); // Red
     chaseB(stripB.Color(255, 0, 0)); 
   } 
@@ -76,7 +76,11 @@ void loop()
   else if (pitch < 5 and pitch > -10 and roll > 150 and roll < 200) {
     chaseA(stripA.Color(255, 255, 255)); 
     chaseB(stripB.Color(255, 255, 255)); 
-  }  
+  // SideX
+  } else {
+    chaseA(stripA.Color(random(255), random(255), random(255))); 
+    chaseB(stripB.Color(random(255), random(255), random(255))); 
+  }
 }
 
 static void chaseA(uint32_t c) {
