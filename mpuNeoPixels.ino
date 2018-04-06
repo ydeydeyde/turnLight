@@ -53,27 +53,27 @@ void loop()
     chaseB(stripB.Color(255, 0, 0)); 
   } 
   // Side 2
-  else if (pitch < -86 and pitch > -80 and roll > -160 and roll < -167) {
+  else if (pitch > -89 and pitch < -80 and roll < -150 and roll > -170) {
     chaseA(stripB.Color(0, 0, 255)); // Blue
     chaseB(stripB.Color(0, 0, 255)); 
   }
   // Side 3
-  else if (pitch < 81 and pitch > 77 and roll > -160 and roll < -167) {
+  else if (pitch < 81 and pitch > 77 and roll < -160 and roll > -167) {
     chaseA(stripA.Color(0,255, 0)); // Green
     chaseB(stripB.Color(0, 255, 0)); 
   }
   // Side 4
-    else if (pitch < 1 and pitch > -1 and roll > 93 and roll < 100) {
+    else if (pitch < 10 and pitch > -10 and roll > 90 and roll < 110) {
     chaseA(stripB.Color(100, 150,200)); 
     chaseB(stripB.Color(100, 150,200)); 
   }
   // Side 5
-  else if (pitch < -1 and pitch > -4 and roll > -100 and roll < -95) {
+  else if (pitch < 5 and pitch > -10 and roll > -110 and roll < -85) {
     chaseA(stripA.Color(10,255, 255)); 
     chaseB(stripB.Color(10, 255, 255)); 
   } 
   // Side 6 
-  else if (pitch < -1 and pitch > -4 and roll > 175 and roll < 180) {
+  else if (pitch < 5 and pitch > -10 and roll > 150 and roll < 200) {
     chaseA(stripA.Color(255, 255, 255)); 
     chaseB(stripB.Color(255, 255, 255)); 
   }  
