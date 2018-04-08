@@ -58,7 +58,7 @@ void loop()
     fullB(stripB.Color(0, 0, 255)); 
   }
   // Side 3
-  else if (pitch < 90 and pitch > 70 and roll < -160 and roll > -167) {
+  else if (pitch < 90 and pitch > 60 and roll < -160 and roll > -180) {
     fullA(stripA.Color(0,255, 0)); // Green
     fullB(stripB.Color(0, 255, 0)); 
   }
