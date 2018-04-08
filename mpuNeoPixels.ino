@@ -73,7 +73,7 @@ void loop()
     fullB(stripB.Color(10, 255, 255)); 
   } 
   // Side 6 
-  else if (pitch < 5 and pitch > -10 and roll > 150 and roll < 200) {
+  else if (pitch < 5 and pitch > -30 and roll > 150 and roll < 200) {
     fullA(stripA.Color(255, 255, 255)); 
     fullB(stripB.Color(255, 255, 255)); 
   // SideX
