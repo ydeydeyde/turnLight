@@ -78,8 +78,8 @@ void loop()
     fullB(stripB.Color(255, 255, 255)); 
   // SideX
   } else {
-    fullA(stripA.Color(random(255), random(255), random(255))); 
-    fullB(stripB.Color(random(255), random(255), random(255))); 
+   // fullA(stripA.Color(random(255), random(255), random(255))); 
+   // fullB(stripB.Color(random(255), random(255), random(255))); 
   }
 }
 
