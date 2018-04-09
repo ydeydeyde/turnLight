@@ -7,7 +7,7 @@
 #define PINb 12
 #define N_LEDS 9 
 
-# Boolean for all sides of the boxes
+// Boolean for all sides of the boxes
 boolean sOne = false;
 boolean sTwo = false;
 boolean sThree = false;
