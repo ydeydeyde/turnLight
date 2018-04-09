@@ -7,6 +7,15 @@
 #define PINb 12
 #define N_LEDS 9 
 
+# Boolean for all sides of the boxes
+boolean sOne = false;
+boolean sTwo = false;
+boolean sThree = false;
+boolean sFour = false;
+boolean sFive = false;
+boolean sSix = false;
+boolean sNone = true;
+
 MPU6050 mpu;
 
 Adafruit_NeoPixel stripA = Adafruit_NeoPixel(9, PINa, NEO_GRB + NEO_KHZ800);
@@ -51,35 +60,44 @@ void loop()
   if (pitch < 20 and pitch > -10 and roll < 5 and roll > -20 ) {
     fullA(stripA.Color(255, 0, 0)); // Red
     fullB(stripB.Color(255, 0, 0)); 
+    sOne = true;
   } 
   // Side 2
   else if (pitch > -89 and pitch < -80 and roll > 140 and roll < 170) {
     fullA(stripB.Color(0, 0, 255)); // Blue
     fullB(stripB.Color(0, 0, 255)); 
+    sTwo = true;
   }
   // Side 3
   else if (pitch < 90 and pitch > 60 and roll < -160 and roll > -180) {
     fullA(stripA.Color(0,255, 0)); // Green
     fullB(stripB.Color(0, 255, 0)); 
+    sThree = true;
   }
   // Side 4
     else if (pitch < 10 and pitch > -10 and roll > 90 and roll < 110) {
     fullA(stripB.Color(100, 150,200)); 
     fullB(stripB.Color(100, 150,200)); 
+    sFour = true;
   }
   // Side 5
   else if (pitch < 5 and pitch > -10 and roll > -110 and roll < -85) {
     fullA(stripA.Color(10,255, 255)); 
     fullB(stripB.Color(10, 255, 255)); 
+    sFive = true;
+    
   } 
   // Side 6 
   else if (pitch < 5 and pitch > -30 and roll > 150 and roll < 200) {
     fullA(stripA.Color(255, 255, 255)); 
     fullB(stripB.Color(255, 255, 255)); 
+    sSix = true;
+    
   // SideX
   } else {
    // fullA(stripA.Color(random(255), random(255), random(255))); 
-   // fullB(stripB.Color(random(255), random(255), random(255))); 
+   // fullB(stripB.Color(random(255), random(255), random(255)));
+   sNone = true; 
   }
 }
 
