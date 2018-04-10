@@ -76,14 +76,14 @@ void loop()
   }
   // Side 4
     else if (pitch < 10 and pitch > -10 and roll > 90 and roll < 110) {
-    fullA(stripB.Color(100, 150,200)); 
-    fullB(stripB.Color(100, 150,200)); 
+    fullA(stripB.Color(50, 150,200)); 
+    fullB(stripB.Color(50, 150,200)); 
     sFour = true;
   }
   // Side 5
   else if (pitch < 5 and pitch > -10 and roll > -110 and roll < -85) {
-    fullA(stripA.Color(10,255, 255)); 
-    fullB(stripB.Color(10, 255, 255)); 
+    fullA(stripA.Color(10,0, 255)); 
+    fullB(stripB.Color(10, 0, 255)); 
     sFive = true;
     
   } 
