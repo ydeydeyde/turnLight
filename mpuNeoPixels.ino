@@ -86,6 +86,7 @@ void loop()
     fullB(stripB.Color(10, 0, 255)); 
     sFive = true;
     
+    
   } 
   // Side 6 
   else if (pitch < 5 and pitch > -30 and roll > 150 and roll < 200) {
@@ -97,6 +98,7 @@ void loop()
   } else {
    // fullA(stripA.Color(random(255), random(255), random(255))); 
    // fullB(stripB.Color(random(255), random(255), random(255)));
+   darken();
    sNone = true; 
   }
 }
@@ -115,4 +117,36 @@ static void fullA(uint32_t c) {
     //  stripB.setPixelColor(i-4, 0); // Erase pixel a few steps back
       stripB.show();
   }
+}
+
+// 0 to 255
+//void brighten() {
+//  uint16_t i, j;
+//
+//  for (j = 45; j < 255; j++) {
+//    for (i = 0; i < stripA.numPixels(); i++) {
+//      stripA.setPixelColor(i, j, j, j);
+//    }
+//    stripA.show();
+//    delay(10);
+//  }
+//  //delay(1500);
+//}
+
+// 255 to 0
+void darken() {
+  Serial.begin(9600);
+  uint16_t i, j;
+
+  for (j = 255; j > 0; j--) {
+    for (i = 0; i < stripA.numPixels() and stripB.numPixels(); i++) {
+      stripA.setPixelColor(i, j, j, j);
+      stripB.setPixelColor(i, j, j, j);
+    }
+    stripA.show();
+    stripB.show();
+    delay(10);
+    Serial.println(j);
+  }
+  delay(1500);
 }
