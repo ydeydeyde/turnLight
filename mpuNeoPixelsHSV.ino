@@ -1,19 +1,20 @@
-/*
-    MPU6050 Triple Axis Gyroscope & Accelerometer. Pitch & Roll Accelerometer Example.
-    Read more: http://www.jarzebski.pl/arduino/czujniki-i-sensory/3-osiowy-zyroskop-i-akcelerometr-mpu6050.html
-    GIT: https://github.com/jarzebski/Arduino-MPU6050
-    Web: http://www.jarzebski.pl
-    (c) 2014 by Korneliusz Jarzebski
-*/
+#include <Wire.h> 
+#include <MPU6050.h> 
+#include <Adafruit_NeoPixel.h> 
 
-#include <Wire.h>
-#include <MPU6050.h>
-
+#define PIN D5
+#define N_LEDS 100
+int hue;
+int sat;
 MPU6050 mpu;
 
-void setup() 
-{
+Adafruit_NeoPixel strip = Adafruit_NeoPixel(N_LEDS, PIN, NEO_GRB + NEO_KHZ800);
+
+void setup () {
   Serial.begin(115200);
+  
+  strip.clear();
+  strip.begin();
 
   Serial.println("Initialize MPU6050");
 
@@ -24,9 +25,8 @@ void setup()
   }
 }
 
-void loop()
-{
-  // Read normalized values 
+void loop() {
+    // Read normalized values 
   Vector normAccel = mpu.readNormalizeAccel();
 
   // Calculate Pitch & Roll
@@ -38,8 +38,20 @@ void loop()
   Serial.print(pitch);
   Serial.print(" Roll = ");
   Serial.print(roll);
-  
   Serial.println();
+  delay(50);
   
-  delay(10);
+  hue = map(roll, -80, 80, 0, 255);
+  sat = map(pitch, -80, 80, 0, 255);
+  Serial.println(hue);
+  Serial.println(sat);
+  fullBright(strip.Color(hue, sat, 100)); 
+}
+
+static void fullBright(uint32_t c) {
+  for(uint16_t i=0; i<strip.numPixels()+4; i++) {
+      strip.setPixelColor(i  , c); // Draw new pixel
+     // stripA.setPixelColor(i-4, 0); // Erase pixel a few steps back
+      strip.show();
+  }
 }
